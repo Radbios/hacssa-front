@@ -1,10 +1,12 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as auth from '../services/auth'
+import * as auth from '../services/auth';
+import api from "../services/api";
 
 
 const AuthContext = createContext();
 
+export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
     
@@ -18,10 +20,12 @@ export const AuthProvider = ({ children }) => {
 
             if(storagedUser && storagedToken){
 
+                api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
 
                 setUser(JSON.parse(storagedUser));
-                setLoading(false);
             }
+
+            setLoading(false);
         }
 
         loadStorageData();
@@ -31,6 +35,9 @@ export const AuthProvider = ({ children }) => {
         const response = await auth.singIn();
 
         setUser(response.user);
+
+        api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
+
 
         await AsyncStorage.setItem('@HacssaAuth:user', JSON.stringify(response.user));
         await AsyncStorage.setItem('@HacssaAuth:token', response.token);
@@ -51,4 +58,8 @@ export const AuthProvider = ({ children }) => {
     );
 }
 
-export default AuthContext;
+export function useAuth(){
+    const context = useContext(AuthContext);
+
+    return context;
+}
