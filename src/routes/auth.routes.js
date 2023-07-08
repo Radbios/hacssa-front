@@ -7,7 +7,10 @@ const AuthStack = createStackNavigator();
 
 const AuthRoutes = () => {
     return(
-        <AuthStack.Navigator>
+        <AuthStack.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}>
             <AuthStack.Screen name="SingIn" component={SingIn} />
         </AuthStack.Navigator>
     );
