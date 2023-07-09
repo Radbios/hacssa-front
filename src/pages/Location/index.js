@@ -10,14 +10,17 @@ import {
     requestForegroundPermissionsAsync,
     getCurrentPositionAsync,
     watchPositionAsync,
-    LocationAccuracy
+    LocationAccuracy,
+    getLastKnownPositionAsync
  } from "expo-location";
 
 import MapView, {Marker} from 'react-native-maps';
 
+
 import AuthContext from "../../contexts/auth";
 
 import api from "../../services/api";
+import { DarkTheme } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
     container: {
@@ -45,8 +48,9 @@ const LocationPage = () => {
     async function requestLocationPermissions() {
         const { granted } = await requestForegroundPermissionsAsync();
 
+
         if(granted){
-            const currentPosition = await getCurrentPositionAsync();
+            const currentPosition = await getLastKnownPositionAsync();
             setLocation(currentPosition);
             setLoading(false);
         }
@@ -56,20 +60,15 @@ const LocationPage = () => {
         requestLocationPermissions();
     }), [];
 
-    useEffect(() => {
-        watchPositionAsync({
-            accuracy: LocationAccuracy.Highest,
-            timeInterval: 1000,
-            distanceInterval: 1
-        }, (response) => {
-            setLocation(response);
-        });
-    }), [];
-
-    const markers = [
-        { latitude: -9.555878, longitude: -35.751842, title: 'Marker 1' },
-        { latitude: -9.55742266181595, longitude: -35.74943337986463, title: 'Marker 2' },
-    ];
+    // useEffect(() => {
+    //     watchPositionAsync({
+    //         accuracy: LocationAccuracy.Highest,
+    //         timeInterval: 1000,
+    //         distanceInterval: 1
+    //     }, (response) => {
+    //         setLocation(response);
+    //     });
+    // }), [];
 
     if(loading){
         return (

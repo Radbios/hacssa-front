@@ -2,8 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons, FontAwesome5, MaterialCommunityIcons} from '@expo/vector-icons'
 
-import Dashboard from '../pages/Dashboard';
-import LocationPage from '../pages/Location';
+import Dashboard from '../../pages/Dashboard';
+import LocationPage from '../../pages/Location';
 
 const Tab = createBottomTabNavigator();
 

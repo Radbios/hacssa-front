@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ActivityIndicator, StyleSheet, Text} from "react-native";
 import AuthRoutes from "./auth.routes";
 import AppRoutes from "./app.routes";
 import {useAuth} from "../contexts/auth";
@@ -24,7 +24,8 @@ const Routes = () => {
         );
     }
     
-    return signed ? <AppRoutes/> : <AuthRoutes/> 
+    return signed ?
+                <AppRoutes /> : <AuthRoutes/> 
 }
 
 export default Routes;

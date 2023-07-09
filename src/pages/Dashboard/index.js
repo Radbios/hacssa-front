@@ -5,8 +5,6 @@ import AuthContext from "../../contexts/auth";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     }
 });
 
@@ -14,7 +12,7 @@ const Dashboard = () => {
     const {  user, singOut } = useContext(AuthContext);
     
     async function handleSignOut(){
-        singOut();
+        await singOut();
     }
 
     return(
