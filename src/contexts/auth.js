@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
             setLoading(false);
         }
-      
+
         loadStorageData();
     }, []);
 

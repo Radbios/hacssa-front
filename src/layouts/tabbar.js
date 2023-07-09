@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Feather, Ionicons, FontAwesome5, MaterialCommunityIcons} from '@expo/vector-icons'
+import {Ionicons, FontAwesome5, MaterialCommunityIcons} from '@expo/vector-icons'
 
 import Dashboard from '../pages/Dashboard';
+import LocationPage from '../pages/Location';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ export default function TabNavigator(){
             />
             <Tab.Screen
                 name="Localization"
-                component={Dashboard}
+                component={LocationPage}
                 options={{
                     tabBarIcon: ({color, size}) => <Ionicons name="location-sharp" size={size} color={color} />,
                     tabBarLabel: "Localização"
