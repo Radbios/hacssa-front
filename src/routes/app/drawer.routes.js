@@ -10,7 +10,11 @@ export default function DrawerNavigator(){
     const {  user, singOut } = useAuth();
 
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator
+            screenOptions={{
+               headerShown: false
+            }}
+        >
             <Drawer.Screen 
                 name= {user.name}
                 component={TabNavigator}
