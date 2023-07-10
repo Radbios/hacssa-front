@@ -4,6 +4,7 @@ import {Ionicons, FontAwesome5, MaterialCommunityIcons} from '@expo/vector-icons
 
 import Dashboard from '../../pages/Dashboard';
 import LocationPage from '../../pages/Location';
+import Client from '../../pages/Client';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +28,7 @@ export default function TabNavigator(){
             />
             <Tab.Screen
                 name="Clients"
-                component={Dashboard}
+                component={Client}
                 options={{
                     tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="card-account-details" size={size} color={color} />,
                     tabBarLabel: "Clientes"

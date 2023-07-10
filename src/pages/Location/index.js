@@ -4,7 +4,6 @@ import {
     StyleSheet,
     Text,
     ActivityIndicator,
-    FlatList
  } from "react-native";
 
 import { 
@@ -88,18 +87,15 @@ const LocationPage = ({navigation}) => {
         });
     }, []);
 
-    
-    if(loading){
-        return (
-            <View style={styles.loading}>
-                <ActivityIndicator size="large" color="#666" />
-            </View>
-        );
-    }
-
     return(
         <View style={styles.container}>
             <Header  element = {navigation} />
+
+            {loading &&
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#666" />
+                </View>
+            }
 
             {location && 
                 <MapView 

@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1
     }
 });
 
