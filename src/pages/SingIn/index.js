@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, TextInput, Button } from "react-native";
 import {useAuth} from "../../contexts/auth";
 import { Text } from "react-native";
@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     },
     input:{
         backgroundColor: 'white',
-        width: 200,
-        height: 40,
+        width: 250,
+        height: 50,
         borderRadius: 15,
         paddingLeft: 25,
         paddingRight: 25,
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     },
     registerBtn: {
         backgroundColor: "rgba(182, 168, 45, 1)",
-        width: 170,
-        height: 50,
+        width: 225,
+        height: 60,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     },
     btn:{
         backgroundColor: "rgba(182, 168, 45, 1)",
-        width: 100,
-        height: 35,
+        width: 125,
+        height: 50,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -52,19 +52,27 @@ const styles = StyleSheet.create({
 
 const SingIn = () => {
     const { signed, singIn, user } = useAuth();
+
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+
     
-    async function handleSignIn(){
-        singIn();
+    function handleSignIn(){
+        singIn(email, password);
     }
 
     return(
         <View style={styles.container}>
             <TextInput 
+                onChangeText={setEmail}
+                value={email}
                 placeholder={'email'}
                 style={styles.input}
             />
             <TextInput 
                 placeholder={'password'}
+                onChangeText={setPassword}
+                value={password}
                 style={styles.input}
                 secureTextEntry={true}
             />

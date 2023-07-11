@@ -31,8 +31,8 @@ export const AuthProvider = ({ children }) => {
         loadStorageData();
     }, []);
 
-    async function singIn() {
-        const response = await auth.singIn();
+    async function singIn(email, password) {
+        const response = await auth.singIn(email, password);
 
         setUser(response.user);
 

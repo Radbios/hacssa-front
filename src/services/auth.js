@@ -1,13 +1,10 @@
-export function singIn(){
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve({
-                token: "skbdfsajdvgasjdgsakdja",
-                user: {
-                    name: "Fabiano",
-                    email: "radbios@gmail.com"
-                }
-            });
-        }, 2000);
+import api from "./api";
+
+export async function singIn(email, password){
+    const response = await api.post('/login', {
+        email: email,
+        password: password,
     });
+    console.log(response)
+    return response.data;
 }
