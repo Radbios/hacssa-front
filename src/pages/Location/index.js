@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     },
     map: {
         flex: 1,
-        width: '100%'
+        width: '100%',
+        height: '100%'
     },
     loading: {
         flex: 1,
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
 
 const LocationPage = ({navigation}) => {
 
-    const [loading, setLoading] = useState(true);
     const [location, setLocation] = useState(null);
     const [addresses, setAddresses] = useState(null);
 
@@ -61,7 +61,6 @@ const LocationPage = ({navigation}) => {
             else{
                 setLocation(lastPosition);
             }
-            setLoading(false);
         }
     }
 
@@ -90,14 +89,7 @@ const LocationPage = ({navigation}) => {
     return(
         <View style={styles.container}>
             <Header  element = {navigation} />
-
-            {loading &&
-                <View style={styles.loading}>
-                    <ActivityIndicator size="large" color="#666" />
-                </View>
-            }
-
-            {location && 
+            {location ?
                 <MapView 
                     style={styles.map}
                     initialRegion={{
@@ -132,6 +124,10 @@ const LocationPage = ({navigation}) => {
                             })
                     }
                 </MapView>
+                :
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#666" />
+                </View>
             }
         </View> 
     );
