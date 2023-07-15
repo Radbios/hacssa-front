@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
         paddingStart: 16,
         paddingEnd: 16,
         flex: 1,
-        gap: 5,
         paddingTop: 5,
         paddingBottom: 5,
         backgroundColor: '#DEDBDB',
+        gap: 20
     },
     itemList: {
         backgroundColor: 'black',
@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
         paddingStart: 30,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: 5
     },
     text: {
         color: 'white',
@@ -86,23 +87,24 @@ const Client = ({navigation}) => {
                         {
                             clients.map((client) => {
                                 return(
-                                    <TouchableOpacity key={client.id} onPress={ () => {
-                                        console.log(client.id)
-                                    }}>
-                                        <View style={styles.itemList}>
-                                            <View style={styles.clientInfo}>
-                                                <Text style={styles.textName}>
-                                                    {client.name}
-                                                </Text>
-                                                <Text style={styles.textDate}>
-                                                    {"Última compra:\t" + moment(client.last_purchase_date).format('DD/MM/YYYY')}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.contentPrice}>
-                                                <Text style={styles.textPrice}>
-                                                    {"R$: " + client.debt}
-                                                </Text>
-                                            </View>
+                                    <TouchableOpacity key={client.id} 
+                                        onPress={ () => {
+                                            console.log(client.id)
+                                        }}
+                                        style={styles.itemList}
+                                    >
+                                        <View style={styles.clientInfo}>
+                                            <Text style={styles.textName}>
+                                                {client.name}
+                                            </Text>
+                                            <Text style={styles.textDate}>
+                                                {"Última compra:\t" + moment(client.last_purchase_date).format('DD/MM/YYYY')}
+                                            </Text>
+                                        </View>
+                                        <View style={styles.contentPrice}>
+                                            <Text style={styles.textPrice}>
+                                                {"R$: " + client.debt}
+                                            </Text>
                                         </View>
                                     </TouchableOpacity>
                                     
