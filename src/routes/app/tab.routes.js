@@ -5,6 +5,7 @@ import {Ionicons, FontAwesome5, MaterialCommunityIcons} from '@expo/vector-icons
 import Dashboard from '../../pages/Dashboard';
 import LocationPage from '../../pages/Location';
 import Client from '../../pages/Client';
+import MyInventory from '../../pages/MyInventory';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,8 +40,8 @@ export default function TabNavigator(){
                 }}
             />
             <Tab.Screen
-                name="myStore"
-                component={Dashboard}
+                name="MyInventory"
+                component={MyInventory}
                 options={{
                     tabBarIcon: ({color, size}) => <FontAwesome5 name="box" size={size} color={color} />,
                     tabBarLabel: "Meu Estoque"
