@@ -5,6 +5,5 @@ export async function singIn(email, password){
         email: email,
         password: password,
     });
-    console.log(response)
     return response.data;
 }

@@ -12,15 +12,11 @@ const styles = StyleSheet.create({
 const Dashboard = ({navigation}) => {
     const {  user, singOut } = useContext(AuthContext);
     
-    async function handleSignOut(){
-        await singOut();
-    }
+    
 
     return(
         <View style={styles.container}>
             <Header  element = {navigation} />
-            <Text>{user?.name}</Text>
-            <Button title="Logout" onPress={handleSignOut} />
         </View> 
     );
 }
