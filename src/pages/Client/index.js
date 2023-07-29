@@ -6,6 +6,8 @@ import api from "../../services/api";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import NewClientModal from "../../components/Modal/newClientModal";
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -13,7 +15,6 @@ const styles = StyleSheet.create({
     content:{
         flex: 1,
         backgroundColor: '#DEDBDB',
-        gap: 10,
         paddingBottom: 5
     },
     itemList: {
@@ -61,12 +62,18 @@ const styles = StyleSheet.create({
     clientInfo: {
         flex: 1
     },
-    inputContent: {
+    headerContent: {
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
-        height: 50,
-        flexDirection: "row"
+        height: 100,
+        flexDirection: "column",
+        gap: 10
+    },
+    inputContent: {
+        flexDirection: "row",
+    },
+    actionsContent:{
     },
     search: {
         backgroundColor: "black",
@@ -75,17 +82,26 @@ const styles = StyleSheet.create({
         color: "white",
         paddingLeft: 20,
         paddingRight: 20,
-        fontSize: 25
+        fontSize: 25,
+        height:45
     },
     filter:{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        paddingTop: 5
     },
     scrollView: {
         flex: 1,
         paddingLeft: 10,
         paddingRight: 10,
+    },
+    newClient:{
+        backgroundColor: "#0F6812",
+        borderRadius: 10,
+        width: 100,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center"
     }
 });
 
@@ -93,6 +109,7 @@ const Client = ({navigation}) => {
     const [clients, setClients] = useState(null);
     const [search, setSearch] = useState(null);
     const [clientList, setClientList] = useState();
+    const [isModalVisible, setModalVisible] = useState(false);
 
     async function getClients(){
         const response = await api.get("/clients");
@@ -100,21 +117,25 @@ const Client = ({navigation}) => {
         setClients(res.data)
         setClientList(res.data)
     }
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
+
     useEffect(() => {
         getClients();
         setClientList(clients);
     }, []);
 
     useEffect(() => {
-        if(search == ""){
+        if(search == null){
             setClientList(clients);
         }
         else{
             if(clients){
                 setClientList(
                     clients.filter(
-                        (item) =>item.name.toLowerCase().indexOf(search.toLowerCase()) > -1)
-                );
+                        (item) =>item.name.toLowerCase().indexOf(search.toLowerCase()) > -1));
             }
         }
     }, [search]);
@@ -131,16 +152,25 @@ const Client = ({navigation}) => {
         <View style={styles.container}>
             <Header  element = {navigation} />
             <View style={styles.content}>
-                <View style={styles.inputContent}>
-                    <TextInput 
-                        style={styles.search}
-                        placeholder={'Pesquisar'}
-                        onChangeText={setSearch}
-                        value={search}
-                    />
-                    <TouchableOpacity style={styles.filter} onPress={handleOrderClick}>
-                        <MaterialCommunityIcons name="order-alphabetical-ascending" size={35} color="black" />
-                    </TouchableOpacity>
+                <View style={styles.headerContent}>
+                    <View style={styles.inputContent}>
+                        <TextInput 
+                            style={styles.search}
+                            placeholder={'Pesquisar'}
+                            onChangeText={setSearch}
+                            value={search}
+                        />
+                        <TouchableOpacity style={styles.filter} onPress={handleOrderClick}>
+                            <MaterialCommunityIcons name="order-alphabetical-ascending" size={35} color="black" />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.actionsContent}>
+                        <TouchableOpacity style={styles.newClient} onPress={toggleModal}>
+                            <Text style={styles.text}>
+                                Novo Cliente
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 {
                     clientList ?
@@ -149,8 +179,8 @@ const Client = ({navigation}) => {
                                 clientList.map((client) => {
                                     return(
                                         <TouchableOpacity key={client.id} 
-                                            onPress={ () => {
-                                                console.log(client.id)
+                                            onPress={() => {
+                                                console.log(client);
                                             }}
                                             style={styles.itemList}
                                         >
@@ -172,7 +202,6 @@ const Client = ({navigation}) => {
                                                 </Text>
                                             </View>
                                         </TouchableOpacity>
-                                        
                                     )
                                 })
                             }
@@ -181,8 +210,9 @@ const Client = ({navigation}) => {
                     <View style={styles.loading}>
                         <ActivityIndicator size="large" color="#666" />
                     </View>
-                }
+                }                
             </View>
+            <NewClientModal visible={isModalVisible} onClose={toggleModal} getClients={getClients} />
         </View> 
     );
 }
