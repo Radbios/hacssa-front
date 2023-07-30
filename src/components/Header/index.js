@@ -8,8 +8,7 @@ import {
  } from "react-native";
 import AuthContext from "../../contexts/auth";
 import { Feather } from '@expo/vector-icons';
-
-const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
+import { statusBarHeight } from "../../../assets/styles/app";
 
 const styles = StyleSheet.create({
     container: {

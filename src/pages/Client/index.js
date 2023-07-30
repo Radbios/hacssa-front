@@ -5,8 +5,11 @@ import Header from "../../components/Header";
 import api from "../../services/api";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ShowClientPage from "./show";
+import { useNavigation } from "@react-navigation/native";
 
 import NewClientModal from "../../components/Modal/newClientModal";
+import Loading from "../../components/Loading";
 
 const styles = StyleSheet.create({
     container: {
@@ -74,6 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     actionsContent:{
+        flexDirection: "row-reverse",
     },
     search: {
         backgroundColor: "black",
@@ -180,7 +184,7 @@ const Client = ({navigation}) => {
                                     return(
                                         <TouchableOpacity key={client.id} 
                                             onPress={() => {
-                                                console.log(client);
+                                                navigation.push("ShowClientPage", {clientId: client.id})
                                             }}
                                             style={styles.itemList}
                                         >
@@ -207,9 +211,7 @@ const Client = ({navigation}) => {
                             }
                         </ScrollView>
                     :
-                    <View style={styles.loading}>
-                        <ActivityIndicator size="large" color="#666" />
-                    </View>
+                    <Loading></Loading>
                 }                
             </View>
             <NewClientModal visible={isModalVisible} onClose={toggleModal} getClients={getClients} />

@@ -1,9 +1,10 @@
 import {React, useContext, useEffect, useState} from "react";
-import { View, TouchableOpacity, StyleSheet, Text, ScrollView, ActivityIndicator} from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text, ScrollView} from "react-native";
 import AuthContext from "../../contexts/auth";
 import Header from "../../components/Header";
 import api from "../../services/api";
 import moment from "moment";
+import Loading from "../../components/Loading";
 
 const styles = StyleSheet.create({
     container: {
@@ -45,11 +46,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold',
-    },
-    loading: {
-        flex: 1,
-        alignItems:'center',
-        justifyContent:'center',
     },
     contentValues: {
         height: "100%",
@@ -109,9 +105,7 @@ const MyInventory = ({navigation}) => {
                         }
                     </ScrollView>
                 :
-                <View style={styles.loading}>
-                    <ActivityIndicator size="large" color="#666" />
-                </View>
+                <Loading></Loading>
             }
         </View> 
     );

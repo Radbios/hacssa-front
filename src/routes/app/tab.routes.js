@@ -6,6 +6,7 @@ import Dashboard from '../../pages/Dashboard';
 import LocationPage from '../../pages/Location';
 import Client from '../../pages/Client';
 import MyInventory from '../../pages/MyInventory';
+import ClientNavigation from './stack.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,8 +33,8 @@ export default function TabNavigator(){
                 }}
             />
             <Tab.Screen
-                name="Clients"
-                component={Client}
+                name="ClientsTab"
+                component={ClientNavigation}
                 options={{
                     tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="card-account-details" size={size} color={color} />,
                     tabBarLabel: "Clientes"
