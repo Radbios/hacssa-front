@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import Client from '../../pages/Client';
 import ShowClientPage from '../../pages/Client/show';
-import ShowDebtRecordPage from '../../pages/Client/debtRecord';
+import ShowRecordPage from '../../pages/Client/records';
 
 const Stack = createStackNavigator();
 
@@ -10,7 +10,7 @@ export default function ClientNavigation(){
         <Stack.Navigator screenOptions={ { headerShown: false } }>
             <Stack.Screen name="Clients" component={Client}/>
             <Stack.Screen name="ShowClientPage" component={ShowClientPage}/>
-            <Stack.Screen name="ShowClientDebtRecordPage" component={ShowDebtRecordPage}/>
+            <Stack.Screen name="ShowClientRecordPage" component={ShowRecordPage}/>
         </Stack.Navigator>
     ); 
 }

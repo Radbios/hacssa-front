@@ -116,7 +116,7 @@ const ShowClientPage = ({navigation}) => {
                             </Text>
                             <View style={styles.linhaBranca}></View>
                             <TouchableOpacity style={styles.debtContent} onPress={() => {
-                                navigation.push("ShowClientDebtRecordPage", {client: client})
+                                navigation.push("ShowClientRecordPage", {client: client})
                             }}>
                                 <Text style={styles.titleText}>
                                     {"Débito\nR$:" + client.debt}

@@ -1,12 +1,9 @@
 import {React, useContext, useEffect, useState} from "react";
-import { View, TouchableOpacity, StyleSheet, Text, ScrollView, ActivityIndicator, TextInput} from "react-native";
-import AuthContext from "../../contexts/auth";
+import { View, TouchableOpacity, StyleSheet, Text, ScrollView, TextInput} from "react-native";
 import Header from "../../components/Header";
 import api from "../../services/api";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import ShowClientPage from "./show";
-import { useNavigation } from "@react-navigation/native";
 
 import NewClientModal from "../../components/Modal/newClientModal";
 import Loading from "../../components/Loading";
