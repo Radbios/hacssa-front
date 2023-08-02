@@ -7,6 +7,7 @@ import getClient from "../../services/client/show";
 import Loading from "../../components/Loading";
 import { Ionicons } from '@expo/vector-icons';
 import PaymentModal from "../../components/Modal/newPayment";
+import SaleModal from "../../components/Modal/newSale.js";
 
 const styles = StyleSheet.create({
     container: {
@@ -89,7 +90,8 @@ const ShowClientPage = ({navigation}) => {
     const clientId = route.params.clientId;
 
     const [client, setClient] = useState(null);
-    const [isModalVisible, setModalVisible] = useState(false);
+    const [isModalPaymentVisible, setModalPaymentVisible] = useState(false);
+    const [isModalSaleVisible, setModalSaleVisible] = useState(false);
 
 
     async function handleClient(){
@@ -97,8 +99,12 @@ const ShowClientPage = ({navigation}) => {
         setClient(response.data);
     }
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
+    const togglePaymentModal = () => {
+        setModalPaymentVisible(!isModalPaymentVisible);
+    };
+
+    const toggleSaleModal = () => {
+        setModalSaleVisible(!isModalSaleVisible);
     };
 
     useEffect(() => {
@@ -141,19 +147,20 @@ const ShowClientPage = ({navigation}) => {
                     <Loading></Loading>
                 }
                 <View style={styles.actionsContent}>
-                    <TouchableOpacity style={styles.btnReceive} onPress={toggleModal}>
+                    <TouchableOpacity style={styles.btnReceive} onPress={togglePaymentModal}>
                         <Text style={styles.titleText}>
                             Receber
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnSell}>
+                    <TouchableOpacity style={styles.btnSell} onPress={toggleSaleModal}>
                         <Text style={styles.titleText}>
                             Vender
                         </Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <PaymentModal visible={isModalVisible} onClose={toggleModal} client_id={clientId}></PaymentModal>
+            <PaymentModal visible={isModalPaymentVisible} onClose={togglePaymentModal} client_id={clientId}></PaymentModal>
+            <SaleModal visible={isModalSaleVisible} onClose={toggleSaleModal} client_id={clientId}></SaleModal>
         </View>
     );
 }

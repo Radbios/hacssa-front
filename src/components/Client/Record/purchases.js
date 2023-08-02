@@ -120,8 +120,8 @@ const PurchaseRecord = ({client}) => {
                     {
                         client.purchases.map((purchase) => {
                             return(
-                                <View>
-                                    <View key={purchase.id} 
+                                <View key={purchase.id}>
+                                    <View  
                                         style={styles.itemList}
                                     >   
                                         <Text style={[styles.text, styles.quantity]}>

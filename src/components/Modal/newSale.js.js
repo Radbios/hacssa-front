@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import api from '../../services/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 
-const PaymentModal = ({ visible, onClose, client_id }) => {
+const SaleModal = ({ visible, onClose, client_id }) => {
 
-  const [value, setValue] = useState(null);
-
-  async function createPayment(){
-    const response = await api.post("/payments", { client_id: client_id,
-                                                  value: value,
-                                                  date: formatDate(date) 
-    });
-    setDate(new Date());
-    setValue(null);
-    onClose();
-  }
   const [date, setDate] = useState(new Date());
+  const [product_id, setProductId] = useState(null);
+  const [quantity, setQuantity] = useState(null);
+  const [discount_unit, setDiscountUnit] = useState(null);
+  const [inventory, setInventory] = useState();
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
+
+  async function createPurchase(){
+    const response = await api.post("/purchases", { 
+                                                  client_id: client_id,
+                                                  product_id: product_id,
+                                                  quantity: quantity,
+                                                  discount_unit: discount_unit,
+                                                  date: formatDate(date) 
+    });
+    setDate(new Date());
+    setDiscountUnit(null);
+    setProductId(null);
+    setQuantity(null);
+    onClose();
+  }
+
+  async function getMyInventory(){
+    const response = await api.get("/myinventory");
+    setInventory(response.data.data);
+  }
+  
   const showDatepicker = () => {
     showMode('date');
   };
@@ -41,6 +56,12 @@ const PaymentModal = ({ visible, onClose, client_id }) => {
     setShow(false);
     setDate(currentDate);
   };
+
+  useEffect(() => {
+    if(visible){
+      getMyInventory();
+    }
+  }, [visible]);
   
   return (
     <Modal visible={visible} animationType="slide" transparent>
@@ -49,10 +70,33 @@ const PaymentModal = ({ visible, onClose, client_id }) => {
           <View style={styles.content}>
             <Text style={styles.titleModal}>Novo pagamento</Text>
             <View style={styles.inputContent}>
+              <View style={styles.picker}>
+                <Picker
+                  selectedValue={product_id}
+                  onValueChange={setProductId}
+                >
+                  <Picker.Item label="Selecione o produto" value="" />
+                  {
+                    inventory ? 
+                      inventory.map(element => {
+                        return(<Picker.Item key={element.id} label={element.product.name} value={element.product.id} />)
+                      })
+                    :
+                    <Picker.Item label="Carregando..." value="" />
+                  }
+                </Picker>
+              </View>
               <TextInput 
-                  placeholder={'valor'}
-                  onChangeText={setValue}
-                  value={value}
+                  placeholder={'quantidade'}
+                  onChangeText={setQuantity}
+                  value={quantity}
+                  style={styles.input}
+                  keyboardType="numeric"
+              />
+              <TextInput 
+                  placeholder={'desconto'}
+                  onChangeText={setDiscountUnit}
+                  value={discount_unit}
                   style={styles.input}
                   keyboardType="numeric"
               />
@@ -73,7 +117,7 @@ const PaymentModal = ({ visible, onClose, client_id }) => {
             <TouchableOpacity onPress={onClose} style={styles.btnCancel}>
               <Text style={styles.text}>Voltar</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={createPayment} style={styles.btnAdd}>
+            <TouchableOpacity onPress={createPurchase} style={styles.btnAdd}>
               <Text style={styles.text}>Registrar</Text>
             </TouchableOpacity>
           </View>
@@ -151,7 +195,12 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'gray', // Cor da borda
+    borderColor: 'gray',
+  },
+  picker:{
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'gray',
   },
   titleModal:{
     fontSize:25,
@@ -159,4 +208,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PaymentModal;
+export default SaleModal;

@@ -61,8 +61,8 @@ const PaymentRecord = ({client}) => {
                     {
                         client.payments.map((payment) => {
                             return(
-                                <View>
-                                    <View key={payment.id} 
+                                <View key={payment.id}>
+                                    <View  
                                         style={styles.itemList}
                                     >   
                                         <Text style={[styles.text, styles.date]}>
