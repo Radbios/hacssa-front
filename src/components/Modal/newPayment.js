@@ -1,23 +1,47 @@
 import React, { useState } from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import api from '../../services/api';
-const NewClientModal = ({ visible, onClose, getClients }) => {
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-  const [name, setName] = useState(null);
-  const [phone, setPhone] = useState(null);
-  const [gender, setGender] = useState(null);
+const PaymentModal = ({ visible, onClose, client_id }) => {
 
-  async function createClient(){
-    const response = await api.post("/clients", { name: name,
-                                                  phone: phone,
-                                                  gender: gender  
+  const [value, setValue] = useState(null);
+
+  async function createPayment(){
+    console.log(formatDate(date))
+    const response = await api.post("/payments", { client_id: client_id,
+                                                  value: value,
+                                                  date: formatDate(date) 
     });
-    setName(null);
-    setPhone(null);
-    setGender(null);
-    getClients();
+    setDate(new Date());
+    setValue(null);
     onClose();
   }
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  function formatDate(date){
+    const year = date.getFullYear().toString().padStart(4, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
   
   return (
     <Modal visible={visible} animationType="slide" transparent>
@@ -27,31 +51,30 @@ const NewClientModal = ({ visible, onClose, getClients }) => {
             <Text style={styles.titleModal}>Novo cliente</Text>
             <View style={styles.inputContent}>
               <TextInput 
-                  placeholder={'nome'}
-                  onChangeText={setName}
-                  value={name}
+                  placeholder={'valor'}
+                  onChangeText={setValue}
+                  value={value}
                   style={styles.input}
-
+                  keyboardType="numeric"
               />
-              <TextInput 
-                  placeholder={'telefone'}
-                  onChangeText={setPhone}
-                  value={phone}
-                  style={styles.input}
-              />
-              <TextInput 
-                  placeholder={'genero'}
-                  onChangeText={setGender}
-                  value={gender}
-                  style={styles.input}
-              />
+              <TouchableOpacity onPress={showDatepicker} style={styles.dateInputBtn}>
+                <Text>{date.toLocaleDateString()}</Text>
+              </TouchableOpacity>
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  onChange={onChange}
+                />
+              )}
             </View>
           </View>
           <View style={styles.btnAction}>
             <TouchableOpacity onPress={onClose} style={styles.btnCancel}>
               <Text style={styles.text}>Voltar</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={createClient} style={styles.btnAdd}>
+            <TouchableOpacity onPress={createPayment} style={styles.btnAdd}>
               <Text style={styles.text}>Registrar</Text>
             </TouchableOpacity>
           </View>
@@ -67,6 +90,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Define o fundo preto com transparência
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  dateInputBtn:{
+    backgroundColor: 'white',
+    width: 250,
+    height: 50,
+    borderRadius: 15,
+    paddingLeft: 25,
+    paddingRight: 25,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'gray',
+    justifyContent: 'center',
   },
   modalContainer: {
     backgroundColor: 'white',
@@ -125,4 +160,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NewClientModal;
+export default PaymentModal;

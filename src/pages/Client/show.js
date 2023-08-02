@@ -6,6 +6,7 @@ import { useRoute } from "@react-navigation/native";
 import getClient from "../../services/client/show";
 import Loading from "../../components/Loading";
 import { Ionicons } from '@expo/vector-icons';
+import PaymentModal from "../../components/Modal/newPayment";
 
 const styles = StyleSheet.create({
     container: {
@@ -88,11 +89,17 @@ const ShowClientPage = ({navigation}) => {
     const clientId = route.params.clientId;
 
     const [client, setClient] = useState(null);
+    const [isModalVisible, setModalVisible] = useState(false);
+
 
     async function handleClient(){
         const response = await getClient(clientId);
         setClient(response.data);
     }
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
 
     useEffect(() => {
         handleClient();
@@ -134,7 +141,7 @@ const ShowClientPage = ({navigation}) => {
                     <Loading></Loading>
                 }
                 <View style={styles.actionsContent}>
-                    <TouchableOpacity style={styles.btnReceive}>
+                    <TouchableOpacity style={styles.btnReceive} onPress={toggleModal}>
                         <Text style={styles.titleText}>
                             Receber
                         </Text>
@@ -146,6 +153,7 @@ const ShowClientPage = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <PaymentModal visible={isModalVisible} onClose={toggleModal} client_id={clientId}></PaymentModal>
         </View>
     );
 }
